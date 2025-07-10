@@ -1,4 +1,5 @@
 import { MidwayConfig } from '@midwayjs/core';
+import * as entities from '../entity'
 
 export default {
   // use for cookie sign key, should change to your own and keep security
@@ -14,7 +15,7 @@ export default {
         synchronize:true,
         logging:true,
         // ...
-        
+        entities:[...Object.values(entities)],  // 引入实体（数据库的东西）
       }
     }
   }
