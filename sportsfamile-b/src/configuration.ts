@@ -4,6 +4,8 @@ import * as validate from '@midwayjs/validate';
 import * as info from '@midwayjs/info';
 import { join } from 'path';
 import * as orm from '@midwayjs/typeorm';
+import * as swagger from '@midwayjs/swagger';
+
 
 // import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
@@ -14,6 +16,7 @@ import { ReportMiddleware } from './middleware/report.middleware';
     koa,
     validate,
     orm,
+    swagger,
     {
       component: info,
       enabledEnvironment: ['local'],

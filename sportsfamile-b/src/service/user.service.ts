@@ -2,7 +2,8 @@ import { Provide } from '@midwayjs/core';
 import { User } from '../entity';
 import { Repository } from 'typeorm';
 import { InjectEntityModel } from '@midwayjs/typeorm';
-
+import { CreateUserDTO } from '../dto/createuser.dto';
+import * as bcrypt from 'bcrypt';
 
 @Provide()
 export class UserService {
@@ -10,19 +11,32 @@ export class UserService {
   @InjectEntityModel(User)
   private userModel:Repository<User>;
 
-  public async register(username:string,password:string):Promise<boolean>{
-    // TODO: 完成注册逻辑
-
+  public async register(createUserDTO:CreateUserDTO){
     // 检查用户名是否已存在
-    const existingUser = await this.userModel.findOne({
-      where:{username},
-    })
+    const existUser = await this.userModel.findOne({
+      where:{username:createUserDTO.username}
+    });
+    if(existUser){
+      throw new Error('用户名已存在')
+    }
+    // 加密密码
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(createUserDTO.password,salt);
 
-    if(existingUser){
-      return false;
+    // 创建用户
+    const newUser = new User();
+    newUser.username = createUserDTO.username;
+    newUser.password = hashedPassword;
+    newUser.name = createUserDTO.name;
+    newUser.sex = createUserDTO.sex;
+    newUser.identity = createUserDTO.identity;
+    if(createUserDTO.tel){
+      newUser.tel = createUserDTO.tel;
     }
 
-    return true;
+    // 保存到数据库
+    return await this.userModel.save(newUser);
+
   }
     
 }
