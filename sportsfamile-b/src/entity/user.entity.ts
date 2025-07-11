@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn,Column,Unique } from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column,Unique,OneToMany } from "typeorm";
+import { StadiumComment } from "./stadiumcomment.entity";
+
 
 @Entity()
 @Unique(['username'])
@@ -28,4 +30,9 @@ export class User{
 
     @Column({nullable:false})
     identity:string;
+
+    // 新增：用户发出的场馆评论
+    @OneToMany(() => StadiumComment, comment => comment.user)
+    stadiumComments: StadiumComment[];
+
 }
