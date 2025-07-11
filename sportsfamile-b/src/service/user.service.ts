@@ -11,6 +11,35 @@ export class UserService {
   @InjectEntityModel(User)
   private userModel:Repository<User>;
 
+  // 登录
+  public async login(username:string,password:string){
+    // 查找用户
+    const user = await this.userModel.findOne({
+      where:{username},
+      select:['id','username','password','name']
+    });
+
+    // 用户不存在
+    if(!user){
+      throw new Error('用户名不存在');
+    }
+
+    // 验证密码
+    const isPasswordValid = await bcrypt.compare(password,user.password);
+    if(!isPasswordValid){
+      throw new Error('密码错误')
+    }
+
+    return{
+      userInfo:{
+        id:user.id,
+        username:user.username,
+        identity:user.identity
+      }
+    };
+  }
+
+  // 注册用户
   public async register(createUserDTO:CreateUserDTO){
     // 检查用户名是否已存在
     const existUser = await this.userModel.findOne({
@@ -31,7 +60,7 @@ export class UserService {
     newUser.sex = createUserDTO.sex;
     newUser.identity = createUserDTO.identity;
     newUser.age = createUserDTO.age;
-    
+
     if(createUserDTO.tel){
       newUser.tel = createUserDTO.tel;
     }
