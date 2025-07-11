@@ -8,6 +8,12 @@ export default {
   koa: {
     port: 7001,
   },
+  crossDomain: {
+    // 配置 CORS 选项
+    origin: '*', // 允许所有域名跨域访问，生产环境建议设置具体域名
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH', // 允许的HTTP方法
+    credentials: true, // 是否允许携带凭证（如cookie）
+  },
   typeorm:{
     dataSource:{
       default:{

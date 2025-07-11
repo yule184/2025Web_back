@@ -30,6 +30,8 @@ export class UserService {
     newUser.name = createUserDTO.name;
     newUser.sex = createUserDTO.sex;
     newUser.identity = createUserDTO.identity;
+    newUser.age = createUserDTO.age;
+    
     if(createUserDTO.tel){
       newUser.tel = createUserDTO.tel;
     }
