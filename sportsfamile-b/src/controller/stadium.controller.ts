@@ -1,4 +1,4 @@
-import { Controller,Inject,Post,Body } from "@midwayjs/core";
+import { Controller,Inject,Post,Body,Get } from "@midwayjs/core";
 import { createStadiumDTO } from "../dto/createstadium.dto";
 import { StadiumService } from "../service/stadium.service";
 
@@ -6,6 +6,23 @@ import { StadiumService } from "../service/stadium.service";
 export class StadiumController{
     @Inject()
     stadiumService:StadiumService;
+
+    @Get('/')
+    public async getStadiumList(){
+        try{
+            const stadiums = await this.stadiumService.getStadiumList();
+            return{
+                code:200,
+                data:stadiums,
+                message:'获取场馆列表成功',
+            };
+        }catch(e){
+            return {
+                code:400,
+                message:'获取场馆列表失败：'+e.message,
+            };
+        }
+    }
 
     @Post('/create')
     public async createStadium(@Body() createStadiumDTO:createStadiumDTO){
@@ -23,4 +40,6 @@ export class StadiumController{
             };
         }
     }
+
+
 }

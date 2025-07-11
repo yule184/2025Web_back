@@ -28,4 +28,13 @@ export class StadiumService{
         return result;
     }
 
+    // 获取所有场馆
+    public async getStadiumList(){
+        return await this.stadiumModel.find({
+            order:{
+                id:'ASC'
+            },
+        });
+    }
+
 }
