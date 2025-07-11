@@ -5,7 +5,7 @@ import { StadiumComment } from "./stadiumcomment.entity";
 export class Stadium{
     @PrimaryGeneratedColumn()
     id:number;
-    @Column({ nullable: false })
+    @Column({ nullable: false,unique:true })
     name: string;
 
     @Column({ nullable: false })
