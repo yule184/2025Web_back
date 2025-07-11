@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from "@midwayjs/core";
+import { Body, Controller, Inject, Post, Query ,Get} from "@midwayjs/core";
 import { CreateUserDTO } from "../dto/createuser.dto";
 import { UserService } from "../service/user.service";
 
@@ -49,4 +49,20 @@ export class UserController{
         }
     }
 
+    @Get('/info')
+    public async getUserInfo(@Query('username') username:string){
+        try{
+            const user = await this.userService.getUserByUsername(username);
+            return{
+                code:200,
+                data:user,
+                message:'success'
+            };
+        }catch(e){
+            return {
+                code:404,
+                message:e.message
+            };
+        }
+    }
 }

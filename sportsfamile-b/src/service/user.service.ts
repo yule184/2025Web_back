@@ -69,5 +69,19 @@ export class UserService {
     return await this.userModel.save(newUser);
 
   }
+
+  // 根据username获取用户信息
+  public async getUserByUsername(username:string){
+    const user = await this.userModel.findOne({
+      where:{username},
+      select:['id','username','name','sex','identity','tel','age']
+    });
+
+    if(!user){
+      throw new Error('用户不存在');
+    }
+
+    return user;
+  }
     
 }
