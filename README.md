@@ -4,4 +4,4 @@
 2. set several entities(? not exactly correct)
 3. complete login, register, getStadiumList, createStadium
 4. stadium's comments part
-- [ ] 根据评分自动计算stadium的rating有问题，待解决
+- [x] 根据评分自动计算stadium的rating有问题

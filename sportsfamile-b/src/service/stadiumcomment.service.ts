@@ -65,15 +65,18 @@ export class StadiumCommentService{
         const result = await this.commentModel.save(comment);
 
         // 更新场馆评分
-        if(stadium.stadiumComments){
-            const comments = await this.commentModel.find({
-                where:{stadium:{id:stadium.id}}
-            });
-            const totalRating = comments.reduce((sum,c)=>sum+c.rating,0);
-            stadium.rating = parseFloat((totalRating/comments.length).toFixed(1));
+        // 重新查询该场馆的所有评论（包括刚添加的）
+        const comments = await this.commentModel.find({
+            where: { stadium: { id: stadium.id } }
+        });
+
+        // 计算新的平均评分
+        if (comments.length > 0) {
+            const totalRating = comments.reduce((sum, c) => sum + c.rating, 0);
+            stadium.rating = parseFloat((totalRating / comments.length).toFixed(1));
             await this.stadiumModel.save(stadium);
         }
-
+        
         return{
             ...result,
             user:{
