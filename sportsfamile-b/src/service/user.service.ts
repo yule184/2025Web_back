@@ -16,7 +16,7 @@ export class UserService {
     // 查找用户
     const user = await this.userModel.findOne({
       where:{username},
-      select:['id','username','password','name']
+      select:['id','username','password','identity']
     });
 
     // 用户不存在
@@ -34,7 +34,7 @@ export class UserService {
       userInfo:{
         id:user.id,
         username:user.username,
-        identity:user.identity
+        identity:user.identity,
       }
     };
   }
