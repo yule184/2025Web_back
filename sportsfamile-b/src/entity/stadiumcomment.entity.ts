@@ -17,6 +17,6 @@ export class StadiumComment{
     @ManyToOne(() => User, user => user.stadiumComments)
     user: User;
 
-    @ManyToOne(() => Stadium, stadium => stadium.comments)
+    @ManyToOne(() => Stadium, stadium => stadium.stadiumComments)
     stadium: Stadium;
 }

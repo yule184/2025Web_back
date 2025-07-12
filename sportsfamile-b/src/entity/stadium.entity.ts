@@ -19,5 +19,5 @@ export class Stadium{
 
     // 场馆拥有的评论
     @OneToMany(() => StadiumComment, comment => comment.stadium)
-    comments: StadiumComment[];
+    stadiumComments: StadiumComment[];
 }
