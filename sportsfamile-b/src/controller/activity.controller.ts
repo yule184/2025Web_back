@@ -74,4 +74,6 @@ export class ActivityController{
             }
         }
     }
+
+    // TODO:根据用户Id获取用户参加的活动
 }
