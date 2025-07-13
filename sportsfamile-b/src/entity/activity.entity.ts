@@ -30,6 +30,10 @@ export class Activity{
     // 场馆
     @ManyToOne(()=>Stadium,stadium=>stadium.activities)
     stadium:Stadium;
+
+    // 活动发起人
+    @ManyToOne(()=>User,user=>user.createdActivities)
+    creator:User;
     
 
     // 活动参与人
