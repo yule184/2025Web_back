@@ -62,7 +62,7 @@ export class ActivityService{
 
         const result = await this.activityModel.save(activity);
 
-        await this.userModel.save(creator);
+        // await this.userModel.save(creator);
 
         
         

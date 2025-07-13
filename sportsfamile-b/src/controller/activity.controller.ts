@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Inject,Param,Post } from "@midwayjs/core";
 import { ActivityService } from "../service/activity.service";
-import { ActivityResponseDTO, createActivityDTO ,ActivityDetailDTO} from "../dto/activity.dto";
+import { ActivityResponseDTO, createActivityDTO,ActivityDetailDTO } from "../dto/activity.dto";
 import { plainToInstance } from 'class-transformer';
 
 
@@ -61,6 +61,8 @@ export class ActivityController{
             return{
                 code:200,
                 message:'获取指定活动详情成功',
+                // data:activity
+
                 data:plainToInstance(ActivityDetailDTO,activity,{
                     excludeExtraneousValues:true,
                 })

@@ -38,7 +38,7 @@ export class Activity{
 
     // 活动参与人
     @ManyToMany(()=>User,user=>user.joinedActivities)
-    @JoinTable()
+    @JoinTable({name:'activity_participants'})
     participants:User[];
 
     

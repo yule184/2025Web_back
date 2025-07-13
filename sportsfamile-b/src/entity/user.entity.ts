@@ -2,8 +2,8 @@ import { Entity, PrimaryGeneratedColumn,Column,Unique,OneToMany, ManyToMany } fr
 import { StadiumComment } from "./stadiumcomment.entity";
 import { Activity } from "./activity.entity";
 import { ActivityComment } from "./activitycomment.entity";
-import { Exclude } from 'class-transformer';
-import { JoinTable } from "typeorm";
+// import { Exclude } from 'class-transformer';
+// import { JoinTable } from "typeorm";
 
 
 @Entity()
@@ -40,13 +40,13 @@ export class User{
     stadiumComments: StadiumComment[];
 
     // 用户参加的活动 多对多
-    @Exclude() // 关键点：排除循环字段
+    // @Exclude() // 关键点：排除循环字段
     @ManyToMany(()=>Activity,activity=>activity.participants)
-    @JoinTable()
+    // @JoinTable()
     joinedActivities:Activity[];
 
      // 新增：用户创建的活动（一对多）
-    @Exclude() // 关键点：排除循环引用字段
+    // @Exclude() // 关键点：排除循环引用字段
     @OneToMany(() => Activity, activity => activity.creator)
     createdActivities: Activity[];
 
