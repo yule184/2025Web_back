@@ -24,7 +24,7 @@ export class ActivityService{
         });
     }
 
-    // 新增场馆
+    // 新增活动
     public async createActivity(createDTO:createActivityDTO){
         // 获取场馆
         const stadium = await this.stadiumModel.findOne({
@@ -38,7 +38,7 @@ export class ActivityService{
         const creator = await this.userModel.findOne({
             where:{id:createDTO.creatorId},
             select:['id','username'],
-            relations:['joinedActivities']
+            // relations:['joinedActivities']
         });
 
         if(!creator){
@@ -57,11 +57,14 @@ export class ActivityService{
         activity.creator = creator;
 
         activity.participants = [creator];
-        creator.joinedActivities = [...(creator.joinedActivities||[]),activity];
+
+        //creator.joinedActivities = [...(creator.joinedActivities||[]),activity];
+
+        const result = await this.activityModel.save(activity);
 
         await this.userModel.save(creator);
 
-        const result = await this.activityModel.save(activity);
+        
         
 
         return result;
