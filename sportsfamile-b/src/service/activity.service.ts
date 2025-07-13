@@ -15,6 +15,16 @@ export class ActivityService{
     @InjectEntityModel(User)
     userModel:Repository<User>
 
+    // 获取场馆列表
+    public async getRecruitingActivities(){
+        return this.activityModel.find({
+            where:{status:'recruiting'},
+            select:['id','name','targetParticipants','currentParticipants'],
+            
+        });
+    }
+
+    // 新增场馆
     public async createActivity(createDTO:createActivityDTO){
         // 获取场馆
         const stadium = await this.stadiumModel.findOne({
