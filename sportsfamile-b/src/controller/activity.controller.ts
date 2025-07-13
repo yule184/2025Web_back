@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Inject,Post } from "@midwayjs/core";
+import { Body, Controller, Get, Inject,Param,Post } from "@midwayjs/core";
 import { ActivityService } from "../service/activity.service";
-import { ActivityResponseDTO, createActivityDTO } from "../dto/activity.dto";
+import { ActivityResponseDTO, createActivityDTO ,ActivityDetailDTO} from "../dto/activity.dto";
 import { plainToInstance } from 'class-transformer';
 
 
@@ -45,6 +45,31 @@ export class ActivityController{
                 code:400,
                 message:e.message
             };
+        }
+    }
+
+    @Get('/:id')
+    public async getActivityDetailById(@Param('id') id:number){
+        try{
+            const activity = await this.activityService.getAcitivityDetailById(id);
+            if(!activity){
+                return{
+                    code:404,
+                    message:'活动不存在'
+                };
+            }
+            return{
+                code:200,
+                message:'获取指定活动详情成功',
+                data:plainToInstance(ActivityDetailDTO,activity,{
+                    excludeExtraneousValues:true,
+                })
+            };
+        }catch(e){
+            return{
+                code:400,
+                message:'获取详情失败'
+            }
         }
     }
 }

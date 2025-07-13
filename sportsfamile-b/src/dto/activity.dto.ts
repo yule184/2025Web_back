@@ -1,6 +1,7 @@
 import { ApiProperty } from "@midwayjs/swagger";
 import { Expose, Type } from 'class-transformer';
 import { UserResponseDTO } from "./userresponse.dto";
+import { StadiumResponseDTO } from "./stadiumresponse.dto";
 
 export class createActivityDTO{
     @ApiProperty({example:'组一群人随便打球',description:'the name of event'})
@@ -39,4 +40,38 @@ export class ActivityResponseDTO{
     // @Expose()
     // @Type(() => UserResponseDTO)
     // participants: UserResponseDTO[];
+}
+
+export class ActivityDetailDTO{
+    @Expose()
+    id:number;
+
+    @Expose()
+    name:string;
+
+    @Expose()
+    startTime:Date;
+
+    @Expose()
+    duration:number;
+
+    @Expose()
+    status:string;
+
+    @Expose()
+    targetParticipants:number;
+
+    @Expose()
+    currentParticipants:number;
+
+    @Expose()
+    @Type(()=>UserResponseDTO)
+    creator:UserResponseDTO;
+
+    @Expose()
+    @Type(()=>StadiumResponseDTO)
+    stadium:StadiumResponseDTO;
+
+    @Expose()
+    participants:UserResponseDTO[];
 }

@@ -66,4 +66,12 @@ export class ActivityService{
 
         return result;
     }
+
+    // 根据活动id获取活动详细信息
+    public async getAcitivityDetailById(id:number){
+        return this.activityModel.findOne({
+            where:{id},
+            relations:['creator','stadium','participants'],
+        });
+    }
 }
