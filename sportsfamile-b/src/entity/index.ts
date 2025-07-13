@@ -2,3 +2,5 @@
 export * from './user.entity'
 export * from './stadium.entity'
 export * from './stadiumcomment.entity'
+export * from './activity.entity'
+export * from './activitycomment.entity'

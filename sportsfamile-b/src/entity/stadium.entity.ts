@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn,Column,OneToMany} from "typeorm";
 import { StadiumComment } from "./stadiumcomment.entity";
+import { Activity } from "./activity.entity";
 
 @Entity()
 export class Stadium{
@@ -20,4 +21,8 @@ export class Stadium{
     // 场馆拥有的评论
     @OneToMany(() => StadiumComment, comment => comment.stadium)
     stadiumComments: StadiumComment[];
+
+    // 场馆关联的活动
+    @OneToMany(()=>Activity,activity=>activity.stadium)
+    activities:Activity[]
 }

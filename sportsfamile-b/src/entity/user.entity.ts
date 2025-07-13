@@ -1,5 +1,7 @@
-import { Entity, PrimaryGeneratedColumn,Column,Unique,OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column,Unique,OneToMany, ManyToMany } from "typeorm";
 import { StadiumComment } from "./stadiumcomment.entity";
+import { Activity } from "./activity.entity";
+import { ActivityComment } from "./activitycomment.entity";
 
 
 @Entity()
@@ -34,5 +36,14 @@ export class User{
     // 新增：用户发出的场馆评论
     @OneToMany(() => StadiumComment, comment => comment.user)
     stadiumComments: StadiumComment[];
+
+    // 用户参加的活动 多对多
+    @ManyToMany(()=>Activity,activity=>activity.participants)
+    joinedActivities:Activity[];
+
+
+    // 用户发布的活动评论
+    @OneToMany(()=>ActivityComment,comment=>comment.user)
+    activityComments:ActivityComment[];
 
 }
