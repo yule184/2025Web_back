@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Inject,Param,Post } from "@midwayjs/core";
+import { Body, Controller, Get, Inject,Param,Post} from "@midwayjs/core";
 import { ActivityService } from "../service/activity.service";
 import { ActivityResponseDTO, createActivityDTO,ActivityDetailDTO, UserActivityDTO, JoinActicityDTO } from "../dto/activity.dto";
 import { plainToInstance } from 'class-transformer';
-
 
 @Controller('/api/activity')
 export class ActivityController{
@@ -117,6 +116,25 @@ export class ActivityController{
             return{
                 code:400,
                 message:e.message
+            };
+        }
+    }
+
+    @Get('/search/:keyword')
+    public async searchActivities(@Param('keyword') keyword:string){
+        try{
+            const activities = await this.activityService.searchActivities(keyword);
+            return{
+                code:200,
+                message:'搜索成功',
+                data:plainToInstance(ActivityResponseDTO,activities,{
+                    excludeExtraneousValues:true
+                })
+            };
+        }catch(e){
+            return{
+                code:400,
+                message:'搜索失败：'+e.message
             };
         }
     }

@@ -100,3 +100,4 @@ export class JoinActicityDTO{
     @ApiProperty({example:3,description:'the user id'})
     userId:number;
 }
+

@@ -3,6 +3,7 @@ import { InjectEntityModel } from "@midwayjs/typeorm";
 import { Activity, Stadium, User } from "../entity";
 import { Repository } from "typeorm";
 import { createActivityDTO } from "../dto/activity.dto";
+import { Like } from "typeorm";
 
 @Provide()
 export class ActivityService{
@@ -129,5 +130,16 @@ export class ActivityService{
             activityStatus:activity.status,
             currentParticipants:activity.currentParticipants
         };
+    }
+
+    // 搜索活动
+    public async searchActivities(keyword:string){
+        return this.activityModel.find({
+            where:{
+                name:Like(`%${keyword}%`)
+            },
+            relations:['creator'],
+            take:20
+        });
     }
 }
