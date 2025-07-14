@@ -76,3 +76,17 @@ export class ActivityDetailDTO{
     @Type(() => UserResponseDTO) // 明确指定数组元素的转换类型
     participants:UserResponseDTO[];
 }
+
+export class UserActivityDTO{
+    @Expose()
+    id:number;
+
+    @Expose()
+    name:string;
+
+    @Expose()
+    status:'recruiting'|'complete';
+
+    @Expose()
+    startTime:Date;
+}

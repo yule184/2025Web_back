@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Inject,Param,Post } from "@midwayjs/core";
 import { ActivityService } from "../service/activity.service";
-import { ActivityResponseDTO, createActivityDTO,ActivityDetailDTO } from "../dto/activity.dto";
+import { ActivityResponseDTO, createActivityDTO,ActivityDetailDTO, UserActivityDTO } from "../dto/activity.dto";
 import { plainToInstance } from 'class-transformer';
 
 
@@ -76,4 +76,22 @@ export class ActivityController{
     }
 
     // TODO:根据用户Id获取用户参加的活动
+    @Get('/user/:userId')
+    public async getActivitiesByUserId(@Param('userId') userId:number){
+        try{
+            const activities = await this.activityService.getActivitesByUserId(userId);
+            return{
+                code:200,
+                message:'获取用户参与活动信息成功',
+                data:plainToInstance(UserActivityDTO,activities,{
+                    excludeExtraneousValues:true
+                })
+            };
+        }catch(error){
+            return{
+                code:400,
+                message:'获取用户参与活动信息失败：'+error.message
+            };
+        }
+    }
 }

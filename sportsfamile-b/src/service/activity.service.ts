@@ -77,4 +77,17 @@ export class ActivityService{
             relations:['creator','stadium','participants'],
         });
     }
+
+    // 根据用户id获取用户参加的活动
+    public async getActivitesByUserId(userId:number){
+        return this.activityModel.createQueryBuilder('activity')
+        .innerJoin('activity.participants','user','user.id=:userId',{userId})
+        .select([
+            'activity.id',
+            'activity.name',
+            'activity.status',
+            'activity.startTime'
+        ])
+        .getMany();
+    }
 }
