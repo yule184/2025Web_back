@@ -90,4 +90,44 @@ export class ActivityService{
         ])
         .getMany();
     }
+
+    // 参加活动
+    public async joinActivity(activityId:number,userId:number){
+        const activity = await this.activityModel.findOne({
+            where:{id:activityId},
+            relations:['participants']
+        });
+        const user = await this.userModel.findOne({
+            where:{id:userId}
+        });
+
+        if(!activity){
+            throw new Error('活动不存在');
+        }
+        if(!user){
+            throw new Error('用户不存在');
+        }
+        if(activity.status!=='recruiting'){
+            throw new Error('该活动不在招募状态');
+        }
+        if(activity.participants.some(p=>p.id===userId)){
+            throw new Error('您已参加过该活动');
+        }
+        if(activity.currentParticipants>=activity.targetParticipants){
+            throw new Error('活动人数已满');
+        }
+        activity.participants=[...activity.participants,user];
+        activity.currentParticipants+=1;
+
+        if(activity.currentParticipants>=activity.targetParticipants){
+            activity.status = 'completed';
+        }
+
+        await this.activityModel.save(activity);
+        return{
+            success:true,
+            activityStatus:activity.status,
+            currentParticipants:activity.currentParticipants
+        };
+    }
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Inject,Param,Post } from "@midwayjs/core";
 import { ActivityService } from "../service/activity.service";
-import { ActivityResponseDTO, createActivityDTO,ActivityDetailDTO, UserActivityDTO } from "../dto/activity.dto";
+import { ActivityResponseDTO, createActivityDTO,ActivityDetailDTO, UserActivityDTO, JoinActicityDTO } from "../dto/activity.dto";
 import { plainToInstance } from 'class-transformer';
 
 
@@ -91,6 +91,32 @@ export class ActivityController{
             return{
                 code:400,
                 message:'获取用户参与活动信息失败：'+error.message
+            };
+        }
+    }
+
+    // 参加活动
+    @Post('/join')
+    public async joinActicity(@Body() joinDTO:JoinActicityDTO){
+        try{
+            const result = await this.activityService.joinActivity(
+                joinDTO.activityId,
+                joinDTO.userId
+            );
+            return{
+                code:200,
+                message: result.activityStatus === 'completed' 
+                    ? '参加活动成功，活动人数已满' 
+                    : '参加活动成功',
+                data: {
+                    currentParticipants: result.currentParticipants,
+                    status: result.activityStatus
+                }
+            };
+        }catch(e){
+            return{
+                code:400,
+                message:e.message
             };
         }
     }

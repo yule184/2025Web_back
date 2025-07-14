@@ -90,3 +90,13 @@ export class UserActivityDTO{
     @Expose()
     startTime:Date;
 }
+
+export class JoinActicityDTO{
+    //@Expose()
+    @ApiProperty({example:1,description:'the activity id'})
+    activityId:number;
+
+    //@Expose()
+    @ApiProperty({example:3,description:'the user id'})
+    userId:number;
+}
