@@ -24,6 +24,24 @@ export class StadiumController{
         }
     }
 
+    // 获取简单场馆信息
+    @Get('/simplelist')
+    public async getSimpleStadiumList(){
+        try{
+            const stadiums = await this.stadiumService.getSimpleStadiumList();
+            return{
+                code:200,
+                data:stadiums,
+                message:'获取场馆简略列表成功'
+            };
+        }catch(e){
+            return{
+                code:400,
+                message:'获取场馆列表失败'+e.message
+            };
+        }
+    }
+
     @Post('/create')
     public async createStadium(@Body() createStadiumDTO:createStadiumDTO){
         try{

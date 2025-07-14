@@ -37,6 +37,13 @@ export class StadiumService{
         });
     }
 
+    // 获取场馆简要信息，为了后续方便
+    public async getSimpleStadiumList(){
+        return this.stadiumModel.find({
+            select:['id','name','address','pricePerHour']
+        });
+    }
+
     // 根据场馆id获取指定场馆详情信息
     public async getStadiumById(id:number){
         const stadium = await this.stadiumModel.findOne({
