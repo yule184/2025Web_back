@@ -70,7 +70,7 @@ export class ActivityDetailDTO{
 
     @Expose()
     @Type(()=>StadiumResponseDTO)
-    stadium:StadiumResponseDTO;
+    stadium:StadiumResponseDTO&{pricePerHour?:number};
 
     @Expose()
     @Type(() => UserResponseDTO) // 明确指定数组元素的转换类型

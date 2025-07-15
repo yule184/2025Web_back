@@ -9,4 +9,7 @@ export class StadiumResponseDTO{
 
     @Expose()
     address:string;
+
+    @Expose()
+    pricePerHour:number;
 }
