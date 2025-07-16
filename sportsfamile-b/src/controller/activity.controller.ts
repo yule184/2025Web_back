@@ -2,6 +2,7 @@ import { Body, Controller, Get, Inject,Param,Post} from "@midwayjs/core";
 import { ActivityService } from "../service/activity.service";
 import { ActivityResponseDTO, createActivityDTO,ActivityDetailDTO, UserActivityDTO, JoinActicityDTO } from "../dto/activity.dto";
 import { plainToInstance } from 'class-transformer';
+import { UpdateActivityDTO } from "../dto/updateactivity.dto";
 
 @Controller('/api/activity')
 export class ActivityController{
@@ -135,6 +136,26 @@ export class ActivityController{
             return{
                 code:400,
                 message:'搜索失败：'+e.message
+            };
+        }
+    }
+
+    // 修改活动
+    @Post('/update')
+    public async updateActivity(@Body() updateDTO:UpdateActivityDTO){
+        try{
+            const activity = await this.activityService.updateActivity(updateDTO);
+            return {
+                code:200,
+                message:'修改活动成功',
+                data:plainToInstance(ActivityResponseDTO,activity,{
+                    excludeExtraneousValues:true
+                })
+            };
+        }catch(e){
+            return{
+                code:400,
+                message:e.message
             };
         }
     }

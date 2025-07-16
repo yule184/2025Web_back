@@ -4,6 +4,7 @@ import { Activity, Stadium, User } from "../entity";
 import { Repository } from "typeorm";
 import { createActivityDTO } from "../dto/activity.dto";
 import { Like } from "typeorm";
+import { UpdateActivityDTO } from "../dto/updateactivity.dto";
 
 @Provide()
 export class ActivityService{
@@ -143,5 +144,40 @@ export class ActivityService{
             relations:['creator'],
             take:20
         });
+    }
+
+    // 修改活动信息
+    public async updateActivity(updateDTO:UpdateActivityDTO){
+        const activity = await this.activityModel.findOne({
+            where:{id:updateDTO.activityId},
+            select:['id','name','description','duration','targetParticipants','currentParticipants','status']
+        });
+
+        if(!activity){
+            throw new Error('活动不存在');
+        }
+
+        if(activity.status !== 'recruiting'){
+            throw new Error('只能修改招募中的活动');
+        }
+
+        if(updateDTO.targetParticipants !== undefined){
+            if(updateDTO.targetParticipants<activity.currentParticipants){
+                throw new Error('修改后的招募人数不能小于当前报名人数');
+            }
+            if(updateDTO.targetParticipants === activity.currentParticipants){
+                activity.status = 'completed';
+            }
+        }
+
+        // 更新可选字段
+        if (updateDTO.name !== undefined) activity.name = updateDTO.name;
+        if (updateDTO.description !== undefined) activity.description = updateDTO.description;
+        if (updateDTO.duration !== undefined) activity.duration = updateDTO.duration;
+        if (updateDTO.targetParticipants !== undefined) {
+            activity.targetParticipants = updateDTO.targetParticipants;
+        }
+        
+        return await this.activityModel.save(activity);
     }
 }

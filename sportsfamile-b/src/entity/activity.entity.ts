@@ -27,6 +27,9 @@ export class Activity{
     @Column('int',{default:0})
     currentParticipants:number;
 
+    @Column({ type: 'text', nullable: true }) // 使用 text 类型存储长文本，允许为空
+    description?: string; 
+
     // 场馆
     @ManyToOne(()=>Stadium,stadium=>stadium.activities)
     stadium:Stadium;
