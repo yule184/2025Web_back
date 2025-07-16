@@ -75,6 +75,9 @@ export class ActivityDetailDTO{
     @Expose()
     @Type(() => UserResponseDTO) // 明确指定数组元素的转换类型
     participants:UserResponseDTO[];
+
+    @Expose()
+    description?:string;
 }
 
 export class UserActivityDTO{
