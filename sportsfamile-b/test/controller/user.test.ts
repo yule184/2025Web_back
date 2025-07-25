@@ -18,9 +18,9 @@ describe('test/controller/user.test.ts', () => {
             database: ':memory:',
             synchronize: true,
             logging: false,
-            entities:[...Object.values(entities)],  // 引入实体（数据库的东西）
+            entities: [...Object.values(entities)],  // 引入实体（数据库的东西）
         });
-        
+
         // 2. 等待数据源连接
         await dataSource.initialize();
 
@@ -80,7 +80,7 @@ describe('test/controller/user.test.ts', () => {
             expect(result.body.code).toBe(200);
             expect(result.body.message).toBe('登录成功');
             expect(result.body.data.userInfo).toEqual({
-                id:1,
+                id: 1,
                 username: 'admin',
                 identity: 'ADMIN'
             });
@@ -112,6 +112,41 @@ describe('test/controller/user.test.ts', () => {
             expect(result.body.message).toMatch(/密码错误/);
         });
 
-        
+
+    });
+
+
+
+    describe('GET /api/user/info', () => {
+        it('should get user info by username', async () => {
+            const result = await createHttpRequest(app)
+                .get('/api/user/info')
+                .query({ username: 'admin' });
+
+            expect(result.status).toBe(200);
+            expect(result.body.code).toBe(200);
+            expect(result.body.message).toBe('success');
+            expect(result.body.data).toEqual({
+                id: 1,
+                username: 'admin',
+                name: '管理员',
+                sex: '男',
+                identity: 'ADMIN',
+                tel: '12345678900',
+                age: 99
+            });
+        });
+
+
+        it('should fail when user does not exist', async () => {
+            const result = await createHttpRequest(app)
+                .get('/api/user/info')
+                .query({ username: 'nonexistent' });
+
+            expect(result.status).toBe(200);
+            expect(result.body.code).toBe(404);
+            expect(result.body.message).toMatch(/用户不存在/);
+        });
+
     });
 });
