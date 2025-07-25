@@ -20,7 +20,7 @@ export default {
         type:'sqlite',
         database:'webbackend.db',
         synchronize:true,
-        logging:true,
+        logging:false,
         // ...
         entities:[...Object.values(entities)],  // 引入实体（数据库的东西）
       }
