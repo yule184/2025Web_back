@@ -75,7 +75,7 @@ describe('test/controller/activity.test.ts', () => {
                 .get('/api/activity/search/test')
 
             expect(result.body.code).toBe(200);
-            expect(result.body.message).toBe(/搜索成功/);            
+            expect(result.body.message).toMatch(/搜索成功/);            
         });
     });
 });
