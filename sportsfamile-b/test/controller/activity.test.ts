@@ -67,4 +67,15 @@ describe('test/controller/activity.test.ts', () => {
             
         });
     });
+
+
+    describe('GET /api/activity/search/:keyword', () => {
+        it('should get none activity', async () => {
+            const result = await createHttpRequest(app)
+                .get('/api/activity/search/test')
+
+            expect(result.body.code).toBe(200);
+            expect(result.body.message).toBe(/搜索成功/);            
+        });
+    });
 });
